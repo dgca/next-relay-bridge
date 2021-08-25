@@ -1,12 +1,16 @@
 {
   "name": "next-relay-bridge",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Middleware to simplify using Next.js with the Relay GraphQL client",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "types": "./lib/esm/index.d.ts",
   "author": "Dan Cortes",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dgca/next-relay-bridge.git"
+  },
   "files": [
     "/lib"
   ],
