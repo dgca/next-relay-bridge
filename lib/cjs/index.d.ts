@@ -1,4 +1,5 @@
 import type { Environment } from "relay-runtime";
+import SafeSuspense from "./components/SafeSuspense";
 declare type CreateNextRelayBridgeArgs = {
     getServerEnvironment: () => Environment;
     getClientEnvironment: () => Environment;
@@ -8,4 +9,4 @@ declare type CreateRelayBridgeReturn = {
     withPageBridge: (args: any) => any;
 };
 export declare function createNextRelayBridge({ getServerEnvironment, getClientEnvironment, }: CreateNextRelayBridgeArgs): CreateRelayBridgeReturn;
-export {};
+export { SafeSuspense };

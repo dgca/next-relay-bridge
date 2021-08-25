@@ -1,0 +1,718 @@
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""whether this query should be cached (Hasura Cloud only)"""
+directive @cached(
+  """measured in seconds"""
+  ttl: Int! = 60
+
+  """refresh the cache entry"""
+  refresh: Boolean! = false
+) on QUERY
+
+"""
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "todos"
+  """
+  delete_todos(
+    """filter the rows which have to be deleted"""
+    where: todos_bool_exp!
+  ): todos_mutation_response
+
+  """
+  delete single row from the table: "todos"
+  """
+  delete_todos_by_pk(pk: uuid!): todos
+
+  """
+  delete data from the table: "users"
+  """
+  delete_users(
+    """filter the rows which have to be deleted"""
+    where: users_bool_exp!
+  ): users_mutation_response
+
+  """
+  delete single row from the table: "users"
+  """
+  delete_users_by_pk(pk: uuid!): users
+
+  """
+  insert data into the table: "todos"
+  """
+  insert_todos(
+    """the rows to be inserted"""
+    objects: [todos_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: todos_on_conflict
+  ): todos_mutation_response
+
+  """
+  insert a single row into the table: "todos"
+  """
+  insert_todos_one(
+    """the row to be inserted"""
+    object: todos_insert_input!
+
+    """on conflict condition"""
+    on_conflict: todos_on_conflict
+  ): todos
+
+  """
+  insert data into the table: "users"
+  """
+  insert_users(
+    """the rows to be inserted"""
+    objects: [users_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: users_on_conflict
+  ): users_mutation_response
+
+  """
+  insert a single row into the table: "users"
+  """
+  insert_users_one(
+    """the row to be inserted"""
+    object: users_insert_input!
+
+    """on conflict condition"""
+    on_conflict: users_on_conflict
+  ): users
+
+  """
+  update data of the table: "todos"
+  """
+  update_todos(
+    """sets the columns of the filtered rows to the given values"""
+    _set: todos_set_input
+
+    """filter the rows which have to be updated"""
+    where: todos_bool_exp!
+  ): todos_mutation_response
+
+  """
+  update single row of the table: "todos"
+  """
+  update_todos_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: todos_set_input
+    pk_columns: todos_pk_columns_input!
+  ): todos
+
+  """
+  update data of the table: "users"
+  """
+  update_users(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+
+    """filter the rows which have to be updated"""
+    where: users_bool_exp!
+  ): users_mutation_response
+
+  """
+  update single row of the table: "users"
+  """
+  update_users_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: users_set_input
+    pk_columns: users_pk_columns_input!
+  ): users
+}
+
+"""An object with globally unique ID"""
+interface Node {
+  """A globally unique identifier"""
+  id: ID!
+}
+
+"""column ordering options"""
+enum order_by {
+  """in ascending order, nulls last"""
+  asc
+
+  """in ascending order, nulls first"""
+  asc_nulls_first
+
+  """in ascending order, nulls last"""
+  asc_nulls_last
+
+  """in descending order, nulls first"""
+  desc
+
+  """in descending order, nulls first"""
+  desc_nulls_first
+
+  """in descending order, nulls last"""
+  desc_nulls_last
+}
+
+type PageInfo {
+  endCursor: String!
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String!
+}
+
+type query_root {
+  node(
+    """A globally unique id"""
+    id: ID!
+  ): Node
+
+  """An array relationship connection"""
+  todos_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [todos_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [todos_order_by!]
+
+    """filter the rows returned"""
+    where: todos_bool_exp
+  ): todosConnection!
+
+  """
+  fetch data from the table: "users"
+  """
+  users_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): usersConnection!
+}
+
+"""
+Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+
+  """does the column match the given case-insensitive pattern"""
+  _ilike: String
+  _in: [String!]
+
+  """
+  does the column match the given POSIX regular expression, case insensitive
+  """
+  _iregex: String
+  _is_null: Boolean
+
+  """does the column match the given pattern"""
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+
+  """does the column NOT match the given case-insensitive pattern"""
+  _nilike: String
+  _nin: [String!]
+
+  """
+  does the column NOT match the given POSIX regular expression, case insensitive
+  """
+  _niregex: String
+
+  """does the column NOT match the given pattern"""
+  _nlike: String
+
+  """
+  does the column NOT match the given POSIX regular expression, case sensitive
+  """
+  _nregex: String
+
+  """does the column NOT match the given SQL regular expression"""
+  _nsimilar: String
+
+  """
+  does the column match the given POSIX regular expression, case sensitive
+  """
+  _regex: String
+
+  """does the column match the given SQL regular expression"""
+  _similar: String
+}
+
+type subscription_root {
+  node(
+    """A globally unique id"""
+    id: ID!
+  ): Node
+
+  """An array relationship connection"""
+  todos_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [todos_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [todos_order_by!]
+
+    """filter the rows returned"""
+    where: todos_bool_exp
+  ): todosConnection!
+
+  """
+  fetch data from the table: "users"
+  """
+  users_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [users_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [users_order_by!]
+
+    """filter the rows returned"""
+    where: users_bool_exp
+  ): usersConnection!
+}
+
+"""
+columns and relationships of "todos"
+"""
+type todos implements Node {
+  created_by: uuid!
+  done: Boolean!
+  id: ID!
+  pk: uuid!
+  title: String!
+
+  """An object relationship"""
+  user: users!
+}
+
+"""
+aggregated selection of "todos"
+"""
+type todos_aggregate {
+  aggregate: todos_aggregate_fields
+  nodes: [todos!]!
+}
+
+"""
+aggregate fields of "todos"
+"""
+type todos_aggregate_fields {
+  count(columns: [todos_select_column!], distinct: Boolean): Int!
+  max: todos_max_fields
+  min: todos_min_fields
+}
+
+"""
+order by aggregate values of table "todos"
+"""
+input todos_aggregate_order_by {
+  count: order_by
+  max: todos_max_order_by
+  min: todos_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "todos"
+"""
+input todos_arr_rel_insert_input {
+  data: [todos_insert_input!]!
+
+  """on conflict condition"""
+  on_conflict: todos_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "todos". All fields are combined with a logical 'AND'.
+"""
+input todos_bool_exp {
+  _and: [todos_bool_exp!]
+  _not: todos_bool_exp
+  _or: [todos_bool_exp!]
+  created_by: uuid_comparison_exp
+  done: Boolean_comparison_exp
+  pk: uuid_comparison_exp
+  title: String_comparison_exp
+  user: users_bool_exp
+}
+
+"""
+unique or primary key constraints on table "todos"
+"""
+enum todos_constraint {
+  """unique or primary key constraint"""
+  todos_pkey
+}
+
+"""
+input type for inserting data into table "todos"
+"""
+input todos_insert_input {
+  created_by: uuid
+  done: Boolean
+  pk: uuid
+  title: String
+  user: users_obj_rel_insert_input
+}
+
+"""aggregate max on columns"""
+type todos_max_fields {
+  created_by: uuid
+  pk: uuid
+  title: String
+}
+
+"""
+order by max() on columns of table "todos"
+"""
+input todos_max_order_by {
+  created_by: order_by
+  pk: order_by
+  title: order_by
+}
+
+"""aggregate min on columns"""
+type todos_min_fields {
+  created_by: uuid
+  pk: uuid
+  title: String
+}
+
+"""
+order by min() on columns of table "todos"
+"""
+input todos_min_order_by {
+  created_by: order_by
+  pk: order_by
+  title: order_by
+}
+
+"""
+response of any mutation on the table "todos"
+"""
+type todos_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [todos!]!
+}
+
+"""
+on conflict condition type for table "todos"
+"""
+input todos_on_conflict {
+  constraint: todos_constraint!
+  update_columns: [todos_update_column!]! = []
+  where: todos_bool_exp
+}
+
+"""Ordering options when selecting data from "todos"."""
+input todos_order_by {
+  created_by: order_by
+  done: order_by
+  pk: order_by
+  title: order_by
+  user: users_order_by
+}
+
+"""primary key columns input for table: todos"""
+input todos_pk_columns_input {
+  pk: uuid!
+}
+
+"""
+select columns of table "todos"
+"""
+enum todos_select_column {
+  """column name"""
+  created_by
+
+  """column name"""
+  done
+
+  """column name"""
+  pk
+
+  """column name"""
+  title
+}
+
+"""
+input type for updating data in table "todos"
+"""
+input todos_set_input {
+  created_by: uuid
+  done: Boolean
+  pk: uuid
+  title: String
+}
+
+"""
+update columns of table "todos"
+"""
+enum todos_update_column {
+  """column name"""
+  created_by
+
+  """column name"""
+  done
+
+  """column name"""
+  pk
+
+  """column name"""
+  title
+}
+
+"""
+A Relay connection object on "todos"
+"""
+type todosConnection {
+  edges: [todosEdge!]!
+  pageInfo: PageInfo!
+}
+
+type todosEdge {
+  cursor: String!
+  node: todos!
+}
+
+"""
+columns and relationships of "users"
+"""
+type users implements Node {
+  id: ID!
+  pk: uuid!
+
+  """An array relationship"""
+  todos(
+    """distinct select on columns"""
+    distinct_on: [todos_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [todos_order_by!]
+
+    """filter the rows returned"""
+    where: todos_bool_exp
+  ): [todos!]!
+
+  """An aggregate relationship"""
+  todos_aggregate(
+    """distinct select on columns"""
+    distinct_on: [todos_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [todos_order_by!]
+
+    """filter the rows returned"""
+    where: todos_bool_exp
+  ): todos_aggregate!
+
+  """An array relationship connection"""
+  todos_connection(
+    after: String
+    before: String
+
+    """distinct select on columns"""
+    distinct_on: [todos_select_column!]
+    first: Int
+    last: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [todos_order_by!]
+
+    """filter the rows returned"""
+    where: todos_bool_exp
+  ): todosConnection!
+  username: String!
+}
+
+"""
+Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'.
+"""
+input users_bool_exp {
+  _and: [users_bool_exp!]
+  _not: users_bool_exp
+  _or: [users_bool_exp!]
+  pk: uuid_comparison_exp
+  todos: todos_bool_exp
+  username: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "users"
+"""
+enum users_constraint {
+  """unique or primary key constraint"""
+  users_pkey
+
+  """unique or primary key constraint"""
+  users_username_key
+}
+
+"""
+input type for inserting data into table "users"
+"""
+input users_insert_input {
+  pk: uuid
+  todos: todos_arr_rel_insert_input
+  username: String
+}
+
+"""
+response of any mutation on the table "users"
+"""
+type users_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [users!]!
+}
+
+"""
+input type for inserting object relation for remote table "users"
+"""
+input users_obj_rel_insert_input {
+  data: users_insert_input!
+
+  """on conflict condition"""
+  on_conflict: users_on_conflict
+}
+
+"""
+on conflict condition type for table "users"
+"""
+input users_on_conflict {
+  constraint: users_constraint!
+  update_columns: [users_update_column!]! = []
+  where: users_bool_exp
+}
+
+"""Ordering options when selecting data from "users"."""
+input users_order_by {
+  pk: order_by
+  todos_aggregate: todos_aggregate_order_by
+  username: order_by
+}
+
+"""primary key columns input for table: users"""
+input users_pk_columns_input {
+  pk: uuid!
+}
+
+"""
+select columns of table "users"
+"""
+enum users_select_column {
+  """column name"""
+  pk
+
+  """column name"""
+  username
+}
+
+"""
+input type for updating data in table "users"
+"""
+input users_set_input {
+  pk: uuid
+  username: String
+}
+
+"""
+update columns of table "users"
+"""
+enum users_update_column {
+  """column name"""
+  pk
+
+  """column name"""
+  username
+}
+
+"""
+A Relay connection object on "users"
+"""
+type usersConnection {
+  edges: [usersEdge!]!
+  pageInfo: PageInfo!
+}
+
+type usersEdge {
+  cursor: String!
+  node: users!
+}
+
+scalar uuid
+
+"""
+Boolean expression to compare columns of type "uuid". All fields are combined with logical 'AND'.
+"""
+input uuid_comparison_exp {
+  _eq: uuid
+  _gt: uuid
+  _gte: uuid
+  _in: [uuid!]
+  _is_null: Boolean
+  _lt: uuid
+  _lte: uuid
+  _neq: uuid
+  _nin: [uuid!]
+}
+

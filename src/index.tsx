@@ -3,6 +3,8 @@ import type { Environment } from "relay-runtime";
 import withAppBridge from "./bridge/withAppBridge";
 import withPageBridge from "./bridge/withPageBridge";
 
+import SafeSuspense from "./components/SafeSuspense";
+
 type CreateNextRelayBridgeArgs = {
   getServerEnvironment: () => Environment;
   getClientEnvironment: () => Environment;
@@ -32,3 +34,5 @@ export function createNextRelayBridge({
       }),
   };
 }
+
+export { SafeSuspense };
