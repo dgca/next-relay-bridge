@@ -7,6 +7,9 @@
   "types": "./lib/esm/index.d.ts",
   "author": "Dan Cortes",
   "license": "MIT",
+  "files": [
+    "/lib"
+  ],
   "scripts": {
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
