@@ -18,9 +18,11 @@ On subsequent client-side page navigations, we fetch the data client-side so tha
 
 ## Adding to an existing project
 
-1. Create a file to initialze Next Relay Bridge. In this example, we'll refer to this file as `"../path/to/bridge"`.
+1. Install Next Relay Bridge with `yarn add next-relay-bridge` or `npm -i next-relay-bridge`.
 
-2. In this file, create the `withAppBridge` and `withPageBridge` utilities that you'll use to interface with the system using the `createNextRelayBridge` function. Export `withAppBridge` and `withPageBridge` from this file so we can use it in our application.
+2. Create a file to initialze Next Relay Bridge. In this example, we'll refer to this file as `"../path/to/bridge"`.
+
+3. In this file, create the `withAppBridge` and `withPageBridge` utilities that you'll use to interface with the system using the `createNextRelayBridge` function. Export `withAppBridge` and `withPageBridge` from this file so we can use it in our application.
 
 ```js
 // path/to/bridge.js
@@ -48,7 +50,7 @@ const { withAppBridge, withPageBridge } = createNextRelayBridge({
 export { withAppBridge, withPageBridge };
 ```
 
-3. Wrap your Next.js `_app` component with `withAppBridge` as seen below. Your app component will now receive an additional `relayEnvironment` prop. Pass this to your `<RelayEnvironmentProvider>`.
+4. Wrap your Next.js `_app` component with `withAppBridge` as seen below. Your app component will now receive an additional `relayEnvironment` prop. Pass this to your `<RelayEnvironmentProvider>`.
 
 ```js
 import { RelayEnvironmentProvider } from "react-relay/hooks";
@@ -67,7 +69,7 @@ export default withAppBridge({
 });
 ```
 
-4. To use this on a page component, wrap your page component with `withPageBridge` as seen below. `withPageBridge` takes an object as its argument where `AppComponent` should be your page component, and `getInitialProps` should be an async function that returns your page component's initial props.
+5. To use this on a page component, wrap your page component with `withPageBridge` as seen below. `withPageBridge` takes an object as its argument where `AppComponent` should be your page component, and `getInitialProps` should be an async function that returns your page component's initial props.
 
 `getInitialProps` receives an object as its argument, where `context` is the Next.js [context object](https://nextjs.org/docs/api-reference/data-fetching/getInitialProps#context-object), and `preloadQuery` is an async function that you use to preload any queries that you want to pass to your page component.
 
