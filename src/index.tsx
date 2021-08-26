@@ -6,8 +6,8 @@ import withPageBridge from "./bridge/withPageBridge";
 import SafeSuspense from "./components/SafeSuspense";
 
 type CreateNextRelayBridgeArgs = {
-  getServerEnvironment: () => Environment;
-  getClientEnvironment: () => Environment;
+  getServerEnvironment: (initialStore?: Record<string, any>) => Environment;
+  getClientEnvironment: (initialStore?: Record<string, any>) => Environment;
 };
 
 type CreateRelayBridgeReturn = {
@@ -20,18 +20,20 @@ export function createNextRelayBridge({
   getClientEnvironment,
 }: CreateNextRelayBridgeArgs): CreateRelayBridgeReturn {
   return {
-    withAppBridge: ({ AppComponent }) =>
-      withAppBridge({
+    withAppBridge: ({ AppComponent }) => {
+      return withAppBridge({
         AppComponent,
         getServerEnvironment,
         getClientEnvironment,
-      }),
-    withPageBridge: ({ PageComponent, getInitialProps }) =>
-      withPageBridge({
+      });
+    },
+    withPageBridge: ({ PageComponent, getInitialProps }) => {
+      return withPageBridge({
         PageComponent,
         getInitialProps,
         getServerEnvironment,
-      }),
+      });
+    },
   };
 }
 

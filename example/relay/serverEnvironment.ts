@@ -8,7 +8,7 @@ export function createServerNetwork() {
   });
 }
 
-export function getServerEnvironment(initialState: any) {
+export function getServerEnvironment(initialState: Record<string, any> = {}) {
   return new Environment({
     network: createServerNetwork(),
     store: new Store(new RecordSource(initialState)),

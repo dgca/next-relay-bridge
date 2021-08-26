@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import { withPageBridge, SafeSuspense } from "relay/bridge";
 
+import { users_pageQuery as users_pageQueryType } from "queries/__generated__/users_pageQuery.graphql";
+
 const users_pageQuery = graphql`
   query users_pageQuery {
     users_connection {
@@ -24,7 +26,10 @@ const users_pageQuery = graphql`
 `;
 
 function Users({ usersQuery }) {
-  const data = usePreloadedQuery(users_pageQuery, usersQuery);
+  const data = usePreloadedQuery<users_pageQueryType>(
+    users_pageQuery,
+    usersQuery
+  );
   return (
     <div>
       <h1>Users</h1>
