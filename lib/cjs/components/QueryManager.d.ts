@@ -1,7 +1,10 @@
 import React from "react";
 export default class QueryManager extends React.Component<{
     pageProps: {
-        __nextRelayBridgeProps__: any;
+        __nextRelayBridgeProps__: {
+            initialStore: any;
+            relayEnvironment: any;
+        };
     };
     getServerEnvironment: any;
     getClientEnvironment: any;

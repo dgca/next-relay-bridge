@@ -5,7 +5,10 @@ import { rawQueryKey } from "../utils/makeRawQuery";
 
 export default class QueryManager extends React.Component<{
   pageProps: {
-    __nextRelayBridgeProps__: any;
+    __nextRelayBridgeProps__: {
+      initialStore: any;
+      relayEnvironment: any;
+    };
   };
   getServerEnvironment: any;
   getClientEnvironment: any;
@@ -54,7 +57,10 @@ export default class QueryManager extends React.Component<{
       return this.props.getClientEnvironment(initialStore);
     }
 
-    return this.props.getServerEnvironment(initialStore);
+    return (
+      this.props.pageProps.__nextRelayBridgeProps__?.relayEnvironment ??
+      this.props.getServerEnvironment(initialStore)
+    );
   }
 
   render() {
