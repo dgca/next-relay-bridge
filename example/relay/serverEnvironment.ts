@@ -8,10 +8,10 @@ export function createServerNetwork() {
   });
 }
 
-export function getServerEnvironment(initialState: Record<string, any> = {}) {
+export function getServerEnvironment() {
   return new Environment({
     network: createServerNetwork(),
-    store: new Store(new RecordSource(initialState)),
+    store: new Store(new RecordSource()),
     isServer: true,
   });
 }

@@ -28,7 +28,7 @@ const getServerInitialProps: GetServerInitialPropsType =
     userGetInitialProps,
     getServerEnvironment,
   }) {
-    const relayEnvironment = getServerEnvironment({});
+    const relayEnvironment = getServerEnvironment();
 
     async function preloadQuery(query: any, variables: any) {
       const loadedQuery = loadQuery(relayEnvironment, query, variables);
