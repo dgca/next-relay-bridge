@@ -49,6 +49,10 @@ export default class QueryManager extends React.Component<{
     }, {});
   }
 
+  componentWillUnmount() {
+    Object.values(this.state).forEach((query: any) => query.dispose());
+  }
+
   getRelayEnvironment() {
     const initialStore =
       this.props.pageProps.__nextRelayBridgeProps__?.initialStore ?? {};
