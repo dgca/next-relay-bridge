@@ -1,10 +1,8 @@
-[ Logo TBD... ]
+<img align="right" width="150" src="https://user-images.githubusercontent.com/3639170/131080946-bd57d4b2-1307-4109-b198-b3c89ef3a71a.png" />
 
 # Next Relay Bridge
 
 Middleware to simplify using Next.js with the Relay GraphQL client.
-
----
 
 ## What is it?
 
