@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { usePreloadedQuery } from "react-relay";
 import { graphql } from "relay-runtime";
 import Link from "next/link";
