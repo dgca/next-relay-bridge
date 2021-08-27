@@ -1,5 +1,6 @@
 import { loadQuery } from "react-relay";
 import makeRawQuery from "../utils/makeRawQuery";
+import redirect from "../utils/redirect";
 
 import type { PreloadedQuery } from "react-relay";
 
@@ -42,6 +43,13 @@ const getServerInitialProps: GetServerInitialPropsType =
       context,
       preloadQuery,
     });
+
+    if (initialProps.redirect?.destination) {
+      const destination = initialProps.redirect.destination;
+      const permanent = !!initialProps.redirect.permanent;
+      redirect(context, destination, permanent);
+      return {};
+    }
 
     const serializedStore =
       relayEnvironment?.getStore().getSource().toJSON() || null;

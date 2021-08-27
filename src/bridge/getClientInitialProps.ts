@@ -1,4 +1,5 @@
 import makeRawQuery from "../utils/makeRawQuery";
+import redirect from "../utils/redirect";
 
 type GetClientInitialPropsType = (options: {
   context: any;
@@ -15,6 +16,12 @@ const getClientInitialProps: GetClientInitialPropsType =
       context,
       preloadQuery,
     });
+
+    if (initialProps.redirect?.destination) {
+      const destination = initialProps.redirect.destination;
+      redirect(context, destination);
+      return {};
+    }
 
     return initialProps;
   };

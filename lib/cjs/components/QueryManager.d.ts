@@ -12,6 +12,7 @@ export default class QueryManager extends React.Component<{
 }> {
     constructor(props: any);
     static getDerivedStateFromProps(props: any, state: any): {};
+    componentWillUnmount(): void;
     getRelayEnvironment(): any;
     render(): JSX.Element;
 }

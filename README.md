@@ -73,8 +73,6 @@ export default withAppBridge({
 
 `getInitialProps` receives an object as its argument, where `context` is the Next.js [context object](https://nextjs.org/docs/api-reference/data-fetching/getInitialProps#context-object), and `preloadQuery` is an async function that you use to preload any queries that you want to pass to your page component.
 
-`next-relay-bridge` also exports a `SafeSuspense` component that you can use to suspend while data is being fetched on the client. Currently, we can't use `React.Suspense` on the server, so this component wraps its children with a `React.Fragment` if on the server, or a `React.Suspense` if on the client.
-
 ```js
 import { usePreloadedQuery } from "react-relay";
 import { graphql } from "relay-runtime"; //`
@@ -128,10 +126,17 @@ export default withPageBridge({
 });
 ```
 
-That's it! When a user navigates to `SomePage` directly, we'll wait until the queries have resolved before sending the page up to the client. The client will use the server-side data to initialize its store, and you'll be able to display the whole page without any data additional data requests.
+That's it! When a user navigates to `SomePage` directly, we'll wait until the queries have resolved before sending the page up to the client. The client will use the server-side data to initialize its store, and you'll be able to display the whole page without any additional data requests.
 
 When navigating to `SomePage` on the client via client-side routing, the client will fetch the data and your page will suspend while the data is being fetched.
 
 ## Creating a new Next.js project with Relay and Next Relay Brdige
 
 Detailed instructions coming soon...
+
+## Additional features
+
+* **`SafeSuspense`**
+  * `next-relay-bridge` exports a `SafeSuspense` component that you can use to suspend while data is being fetched on the client. Currently, we can't use `React.Suspense` on the server, so this component wraps its children with a `React.Fragment` if on the server, or a `React.Suspense` if on the client.
+* **Redirects**
+  * If you need to redireect from a page component using `withPageBridge`, your `getInitialProps` function can return an object that has a `redirect` value. It should match the shape of `{ destination: string, permanent?: boolean | number }`. If `permanent` is `false`, it will be treated as a 307 redirect. If `permanent` is true, it'll be a 308. You can also pass `permanent` a redirect status code to set it directly.

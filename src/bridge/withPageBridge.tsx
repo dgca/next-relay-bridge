@@ -3,6 +3,8 @@ import isServer from "../utils/isServer";
 import getServerInitialProps from "./getServerInitialProps";
 import getClientInitialProps from "./getClientInitialProps";
 
+import type { NextPageContext } from "next";
+
 type WithPageBridgeType = (options: {
   PageComponent: any;
   getInitialProps: any;
@@ -18,7 +20,7 @@ const withPageBridge: WithPageBridgeType = function withPageBridge({
     return <PageComponent {...props} />;
   }
 
-  WrappedPageComponent.getInitialProps = async (context: any) => {
+  WrappedPageComponent.getInitialProps = async (context: NextPageContext) => {
     if (isServer()) {
       return getServerInitialProps({
         context,

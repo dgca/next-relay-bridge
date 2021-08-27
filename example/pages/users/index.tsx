@@ -52,6 +52,21 @@ function UsersWrapper(props: any) {
 export default withPageBridge({
   PageComponent: UsersWrapper,
   getInitialProps: async ({ context, preloadQuery }) => {
+    /**
+     * If we needed to redirect from this page, we can return an object
+     * like the one below. If the returned props have a `redirect` key of type
+     * `{ destination: string, permanent?: boolean | number }`, we'll redirect the user
+     * to the destination. `permanent` defaults to `false`. If permanent is `false`,
+     * we'll treat it as a 307 redirect. If it's true, it'll be a 308. You can also pass
+     * `permanent` a redirect status code to set it directly.
+     */
+    // return {
+    //   redirect: {
+    //   destination: "/",
+    //     permanent: false,
+    //   },
+    // };
+
     const usersQuery = await preloadQuery(users_pageQuery, {});
 
     return {
