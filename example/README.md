@@ -1,34 +1,43 @@
+
+# Description
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+Then a simple example of next-relay-bridge was added.
+
 
 ## Getting Started
 
-First, run the development server:
+Relay consumes a GraphQL endpoint. If you don't already have an one available, [Hasura](https://hasura.io/) is an easy way to set up a free GraphQL endpoint. Follow their instructions for setting up Hasura with [a free Heroku database](https://hasura.io/docs/latest/graphql/cloud/getting-started/index.html#step-3-connect-new-existing-database), or [using a Docker image](https://hasura.io/docs/latest/graphql/core/getting-started/docker-simple.html).
+
+Once a database is connected, create two tables.
+
+```
+todos
+  id - autoincrement
+  title - text, not null
+  pk - UUID, unique
+  created_by - UUID
+
+users
+  id - autoincrement
+  username - text, not null
+  pk - UUID, unique
+```
+
+Then add a Foreign Key to todos matching created_by to users.pk.
+
+Then modify the users table relationships and add the recommended relationship as the name `todos`.
+
+Create some users and some todos. You can use [UUIDTools](https://www.uuidtools.com/v4) to generate random UUIDs.
+
+Then, in the code, rename `EXAMPLE.env.local` to `.env.local`.
+
+Then run the development server.
 
 ```bash
-npm run dev
-# or
+yarn
 yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
