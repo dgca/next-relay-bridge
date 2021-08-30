@@ -14,13 +14,11 @@ Once a database is connected, create two tables.
 
 ```
 todos
-  id - autoincrement
   title - text, not null
   pk - UUID, unique
   created_by - UUID
 
 users
-  id - autoincrement
   username - text, not null
   pk - UUID, unique
 ```
