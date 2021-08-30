@@ -1,6 +1,6 @@
 {
   "name": "next-relay-bridge",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Middleware to simplify using Next.js with the Relay GraphQL client",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",

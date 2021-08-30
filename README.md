@@ -136,5 +136,6 @@ Detailed instructions coming soon...
 
 * **`SafeSuspense`**
   * `next-relay-bridge` exports a `SafeSuspense` component that you can use to suspend while data is being fetched on the client. Currently, we can't use `React.Suspense` on the server, so this component wraps its children with a `React.Fragment` if on the server, or a `React.Suspense` if on the client.
+  * If your `SafeSuspense` children will suspend on the server (something that is not yet yet supported by ReactDOMServer), pass `SafeSuspense` a `clientOnly={true}` prop so that it will render `null` on the server.
 * **Redirects**
   * If you need to redireect from a page component using `withPageBridge`, your `getInitialProps` function can return an object that has a `redirect` value. It should match the shape of `{ destination: string, permanent?: boolean | number }`. If `permanent` is `false`, it will be treated as a 307 redirect. If `permanent` is true, it'll be a 308. You can also pass `permanent` a redirect status code to set it directly.

@@ -1,2 +1,2 @@
 /// <reference types="react" />
-export default function SafeSuspense(props: any): JSX.Element;
+export default function SafeSuspense({ children, key, fallback, clientOnly, }: any): JSX.Element;

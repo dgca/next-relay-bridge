@@ -21,7 +21,7 @@ function UsersListContent() {
 
 export default function UsersList() {
   return (
-    <SafeSuspense fallback="Loading...">
+    <SafeSuspense fallback="Loading..." clientOnly>
       <UsersListContent />
     </SafeSuspense>
   );
