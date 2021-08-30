@@ -1,10 +1,15 @@
 import type { AppProps } from "next/app";
-import { RelayEnvironmentProvider } from "react-relay/hooks";
+import { ProviderProps, ReactElement } from "react";
+import { RelayContext, RelayEnvironmentProvider } from "react-relay/hooks";
+import { IEnvironment } from "relay-runtime";
 import { withAppBridge } from "relay/bridge";
-
 import "../styles/globals.css";
 
-function MyApp({ Component, pageProps, relayEnvironment }: AppProps) {
+interface Props extends AppProps {
+  relayEnvironment: IEnvironment
+}
+
+function MyApp({ Component, pageProps, relayEnvironment }: Props) {
   return (
     <RelayEnvironmentProvider environment={relayEnvironment}>
       <Component {...pageProps} />
