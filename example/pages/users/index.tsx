@@ -15,11 +15,11 @@ const users_pageQuery = graphql`
         node {
           username
           pk
+          id
           todos {
             title
             id
           }
-          id
         }
       }
     }
@@ -32,7 +32,7 @@ interface UsersProps {
 }
 
 function Users({ usersQuery }: UsersProps) {
-  const data = usePreloadedQuery<users_pageQueryType>(
+  const data = usePreloadedQuery<users_pageQueryType> (
     users_pageQuery,
     usersQuery
   );

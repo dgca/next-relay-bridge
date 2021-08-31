@@ -6,7 +6,7 @@ import { withAppBridge } from "relay/bridge";
 import "../styles/globals.css";
 
 interface Props extends AppProps {
-  relayEnvironment: IEnvironment
+  relayEnvironment: IEnvironment;
 }
 
 function MyApp({ Component, pageProps, relayEnvironment }: Props) {

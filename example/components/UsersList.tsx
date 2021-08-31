@@ -15,7 +15,7 @@ const UsersListQuery = graphql`
 `;
 
 function UsersListContent() {
-  const data = useLazyLoadQuery(UsersListQuery, {});
+  const data: unknown = useLazyLoadQuery(UsersListQuery, {});
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
