@@ -27,7 +27,8 @@ const users_pageQuery = graphql`
 `;
 
 interface UsersProps {
-  usersQuery: PreloadedQuery<users_pageQueryType, Record<string, unknown>>
+  usersQuery: PreloadedQuery<users_pageQueryType, Record<string, unknown>>;
+  thinger?: string;
 }
 
 function Users({ usersQuery }: UsersProps) {
