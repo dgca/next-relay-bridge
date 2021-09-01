@@ -7,27 +7,29 @@ export default async function graphql(
   try {
     const {
       method,
-      headers: { host, ...restHeaders },
+      headers: { ...restHeaders },
       body,
     } = req;
 
-    const headers = {
+    const moreHeaders = {
       "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET,
       ...restHeaders,
     };
 
     const options = {
       method,
-      headers,
+      moreHeaders,
       body: JSON.stringify({
         query: body.query,
         variables: body.variables,
       }),
     };
 
+    const endpoint = process.env.HASURA_RELAY_ENDPOINT;
+    if (endpoint === undefined) throw new Error('HASURA_RELAY_ENDPOINT not found in env file');
+
     const data = await fetch(
-      process.env.HASURA_RELAY_ENDPOINT as string,
-      // @ts-ignore
+      endpoint,
       options
     ).then((res) => res.json());
 

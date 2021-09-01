@@ -32,7 +32,7 @@ interface UsersProps {
 }
 
 function Users({ usersQuery }: UsersProps) {
-  const data = usePreloadedQuery<users_pageQueryType> (
+  const data = usePreloadedQuery (
     users_pageQuery,
     usersQuery
   );
@@ -65,7 +65,7 @@ interface BridgeWrapperProps {
 
 export default withPageBridge({
   PageComponent: UsersWrapper,
-  getInitialProps: async ({ context, preloadQuery }: BridgeWrapperProps ) => {
+  getInitialProps: async ({ preloadQuery }: BridgeWrapperProps ) => {
 
     // If we needed to redirect from this page, we can return an object
     // like the one below. If the returned props have a `redirect` key of type

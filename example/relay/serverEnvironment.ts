@@ -1,9 +1,9 @@
-import { Environment, Network, Store, RecordSource } from "relay-runtime";
+import { Environment, Network, Store, RecordSource, GraphQLResponse } from "relay-runtime";
 import fetchGraphQL from "./fetchGraphQL";
 
 export function createServerNetwork() {
   return Network.create(async (params, variables) => {
-    const response = await fetchGraphQL(params.text, variables);
+    const response: GraphQLResponse = await fetchGraphQL(params.text, variables);
     return response;
   });
 }
