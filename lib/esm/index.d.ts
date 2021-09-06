@@ -1,12 +1,14 @@
-import type { Environment } from "relay-runtime";
 import SafeSuspense from "./components/SafeSuspense";
-declare type CreateNextRelayBridgeArgs = {
-    getServerEnvironment: (initialStore?: Record<string, any>) => Environment;
-    getClientEnvironment: (initialStore?: Record<string, any>) => Environment;
-};
+import type { WithAppBridgeAppComponent, WithAppBridgeReturn } from "./bridge/withAppBridge";
+import type { CreateRelayBridgeArgs } from "./bridge/types";
 declare type CreateRelayBridgeReturn = {
-    withAppBridge: (args: any) => any;
-    withPageBridge: (args: any) => any;
+    withAppBridge: (args: {
+        AppComponent: WithAppBridgeAppComponent;
+    }) => WithAppBridgeReturn;
+    withPageBridge: (args: {
+        PageComponent: any;
+        getInitialProps: any;
+    }) => any;
 };
-export declare function createNextRelayBridge({ getServerEnvironment, getClientEnvironment, }: CreateNextRelayBridgeArgs): CreateRelayBridgeReturn;
+export declare function createNextRelayBridge({ getServerEnvironment, getClientEnvironment, }: CreateRelayBridgeArgs): CreateRelayBridgeReturn;
 export { SafeSuspense };

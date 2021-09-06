@@ -2,6 +2,8 @@ import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "relay-runtime";
 import { SafeSuspense } from "../relay/bridge";
 
+import { UsersListQuery as UsersListQueryType } from "../queries/__generated__/UsersListQuery.graphql";
+
 const UsersListQuery = graphql`
   query UsersListQuery {
     users_connection {
@@ -15,7 +17,7 @@ const UsersListQuery = graphql`
 `;
 
 function UsersListContent() {
-  const data = useLazyLoadQuery(UsersListQuery, {});
+  const data = useLazyLoadQuery<UsersListQueryType>(UsersListQuery, {});
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 

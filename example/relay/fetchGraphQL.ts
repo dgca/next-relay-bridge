@@ -1,7 +1,7 @@
 export default async function fetchGraphQL(
   query: string | null | undefined,
   variables: {
-    [k: string]: any;
+    [k: string]: unknown;
   }
 ) {
   const endpoint = process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT as string;

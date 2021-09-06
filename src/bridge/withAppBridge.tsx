@@ -1,18 +1,31 @@
 import React from "react";
+
 import QueryManager from "../components/QueryManager";
 
-type WithAppBridgeType = (options: {
-  AppComponent: any;
-  getServerEnvironment: any;
-  getClientEnvironment: any;
-}) => any;
+import type { AppProps } from "next/app";
+import type { IEnvironment } from "relay-runtime";
+import type { CreateRelayBridgeArgs } from "./types";
 
-const withAppBridge: WithAppBridgeType = function withAppBridge({
+type AppWrapperProps = AppProps & {
+  relayEnvironment: IEnvironment;
+};
+
+export type WithAppBridgeAppComponent = React.ComponentType<AppWrapperProps>;
+
+type WithAppBridgeArgs = CreateRelayBridgeArgs & {
+  AppComponent: WithAppBridgeAppComponent;
+};
+
+export type WithAppBridgeReturn = (
+  props: AppWrapperProps
+) => React.ReactElement<QueryManager>;
+
+export default function withAppBridge({
   AppComponent,
   getServerEnvironment,
   getClientEnvironment,
-}) {
-  function AppWrapper(props: any) {
+}: WithAppBridgeArgs): WithAppBridgeReturn {
+  return function AppWrapper(props: AppWrapperProps) {
     return (
       <QueryManager
         {...props}
@@ -21,9 +34,5 @@ const withAppBridge: WithAppBridgeType = function withAppBridge({
         getClientEnvironment={getClientEnvironment}
       />
     );
-  }
-
-  return AppWrapper;
-};
-
-export default withAppBridge;
+  };
+}

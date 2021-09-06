@@ -3,20 +3,34 @@ import isServer from "../utils/isServer";
 import getServerInitialProps from "./getServerInitialProps";
 import getClientInitialProps from "./getClientInitialProps";
 
-import type { NextPageContext } from "next";
+import type { NextPageContext, GetServerSidePropsContext } from "next";
+import type {
+  IEnvironment,
+  GraphQLTaggedNode,
+  Variables as RelayVariables,
+} from "relay-runtime";
+import type { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
 
-type WithPageBridgeType = (options: {
-  PageComponent: any;
-  getInitialProps: any;
-  getServerEnvironment: any;
-}) => any;
+type WithPageBridgeArgs<T> = {
+  PageComponent: React.ComponentType<T>;
+  getInitialProps: (args: {
+    context: GetServerSidePropsContext;
+    preloadQuery: (
+      query: GraphQLTaggedNode,
+      variables: RelayVariables
+    ) => Promise<any>;
+  }) => Promise<{ [k: string]: unknown }>;
+  getServerEnvironment: (initialStore?: RecordMap) => IEnvironment;
+};
 
-const withPageBridge: WithPageBridgeType = function withPageBridge({
+type WithPageBridgeReturn<T> = React.ComponentType<T>;
+
+export default function withPageBridge<T>({
   PageComponent,
   getInitialProps: userGetInitialProps,
   getServerEnvironment,
-}) {
-  function WrappedPageComponent(props: AnimationPlaybackEvent) {
+}: WithPageBridgeArgs<T>): WithPageBridgeReturn<T> {
+  function WrappedPageComponent(props: T) {
     return <PageComponent {...props} />;
   }
 
@@ -36,6 +50,4 @@ const withPageBridge: WithPageBridgeType = function withPageBridge({
   };
 
   return WrappedPageComponent;
-};
-
-export default withPageBridge;
+}
