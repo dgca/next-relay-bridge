@@ -7,18 +7,19 @@ export default async function graphql(
   try {
     const {
       method,
-      headers: { ...restHeaders },
+      headers: { host, ...requestHeaders},
       body,
     } = req;
 
-    const moreHeaders = {
-      "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET,
-      ...restHeaders,
-    };
+    const adminSecret = process.env.HASURA_ADMIN_SECRET;
+    if (typeof adminSecret === 'undefined') {
+      throw new Error('must define your admin secret in the env file');
+    }
+    requestHeaders['x-hasura-admin-secret'] = adminSecret;
 
     const options = {
       method,
-      moreHeaders,
+      headers: requestHeaders as HeadersInit, // fetch needs HeadersInit
       body: JSON.stringify({
         query: body.query,
         variables: body.variables,
@@ -26,7 +27,9 @@ export default async function graphql(
     };
 
     const endpoint = process.env.HASURA_RELAY_ENDPOINT;
-    if (endpoint === undefined) throw new Error('HASURA_RELAY_ENDPOINT not found in env file');
+    if (typeof endpoint === 'undefined') {
+      throw new Error('endpoint must be in env file');
+    }
 
     const data = await fetch(
       endpoint,
