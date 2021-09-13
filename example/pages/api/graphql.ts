@@ -5,21 +5,20 @@ export default async function graphql(
   res: NextApiResponse
 ) {
   try {
-    const {
-      method,
-      headers: { host, ...requestHeaders},
-      body,
-    } = req;
+    const { method, headers, body } = req;
+
+    const newHeaders = { ...headers } as Record<string, string>;
+    delete newHeaders.host; // the fetch fails if this is present
 
     const adminSecret = process.env.HASURA_ADMIN_SECRET;
     if (typeof adminSecret === 'undefined') {
-      throw new Error('must define your admin secret in the env file');
+      throw new Error('HASURA_ADMIN_SECRET must define in the env file');
     }
-    requestHeaders['x-hasura-admin-secret'] = adminSecret;
+    newHeaders['x-hasura-admin-secret'] = adminSecret;
 
     const options = {
       method,
-      headers: requestHeaders as HeadersInit, // fetch needs HeadersInit
+      headers: newHeaders,
       body: JSON.stringify({
         query: body.query,
         variables: body.variables,
@@ -28,7 +27,7 @@ export default async function graphql(
 
     const endpoint = process.env.HASURA_RELAY_ENDPOINT;
     if (typeof endpoint === 'undefined') {
-      throw new Error('endpoint must be in env file');
+      throw new Error('HASURA_RELAY_ENDPOINT must be defined in env file');
     }
 
     const data = await fetch(
