@@ -32,7 +32,7 @@ interface UsersProps {
 }
 
 function Users({ usersQuery }: UsersProps) {
-  const data = usePreloadedQuery (
+  const data = usePreloadedQuery(
     users_pageQuery,
     usersQuery
   );

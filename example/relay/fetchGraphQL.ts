@@ -1,3 +1,4 @@
+// import { GraphQLResponse } from "relay-runtime";
 
 export default async function fetchGraphQL(
   query: string | null | undefined,
@@ -10,14 +11,12 @@ export default async function fetchGraphQL(
 
   const response = await fetch(endpoint, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       query,
       variables,
     }),
   });
 
-  return response.json();
+  return response.json(); //as Promise<GraphQLResponse>;
 }
