@@ -1,14 +1,11 @@
+import withPageBridge from "./bridge/withPageBridge";
 import SafeSuspense from "./components/SafeSuspense";
-import type { WithAppBridgeAppComponent, WithAppBridgeReturn } from "./bridge/withAppBridge";
-import type { CreateRelayBridgeArgs } from "./bridge/types";
+import type { CreateRelayBridgeArgs, WithAppBridgeAppComponent, WithAppBridgeReturn, WithPageBridgeArgs } from "./types";
 declare type CreateRelayBridgeReturn = {
     withAppBridge: (args: {
         AppComponent: WithAppBridgeAppComponent;
     }) => WithAppBridgeReturn;
-    withPageBridge: (args: {
-        PageComponent: any;
-        getInitialProps: any;
-    }) => any;
+    withPageBridge: (args: WithPageBridgeArgs) => ReturnType<typeof withPageBridge>;
 };
 export declare function createNextRelayBridge({ getServerEnvironment, getClientEnvironment, }: CreateRelayBridgeArgs): CreateRelayBridgeReturn;
 export { SafeSuspense };

@@ -3,7 +3,7 @@ import isServer from "../utils/isServer";
 import getServerInitialProps from "./getServerInitialProps";
 import getClientInitialProps from "./getClientInitialProps";
 
-import type { NextPageContext, GetServerSidePropsContext } from "next";
+import type { NextPageContext } from "next";
 import type {
   IEnvironment,
   GraphQLTaggedNode,
@@ -11,25 +11,25 @@ import type {
 } from "relay-runtime";
 import type { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
 
+// import { WithPageBridgheReturn } from "../types";
+
 type WithPageBridgeArgs<T> = {
   PageComponent: React.ComponentType<T>;
   getInitialProps: (args: {
-    context: GetServerSidePropsContext;
+    context: NextPageContext;
     preloadQuery: (
       query: GraphQLTaggedNode,
       variables: RelayVariables
     ) => Promise<any>;
-  }) => Promise<{ [k: string]: unknown }>;
+  }) => Promise<Record<string, unknown>>;
   getServerEnvironment: (initialStore?: RecordMap) => IEnvironment;
 };
 
-type WithPageBridgeReturn<T> = React.ComponentType<T>;
-
-export default function withPageBridge<T>({
+export default function withPageBridge<T extends React.ComponentType>({
   PageComponent,
   getInitialProps: userGetInitialProps,
   getServerEnvironment,
-}: WithPageBridgeArgs<T>): WithPageBridgeReturn<T> {
+}: WithPageBridgeArgs<T>) {
   function WrappedPageComponent(props: T) {
     return <PageComponent {...props} />;
   }

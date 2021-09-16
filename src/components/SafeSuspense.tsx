@@ -2,7 +2,7 @@ import React, { Suspense, Fragment, SuspenseProps } from "react";
 import isServer from "../utils/isServer";
 
 type SafeSuspenseProps = SuspenseProps & {
-  clientOnly: boolean;
+  clientOnly?: boolean;
 };
 
 export default function SafeSuspense({

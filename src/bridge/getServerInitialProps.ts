@@ -2,6 +2,11 @@ import { loadQuery } from "react-relay";
 import makeRawQuery from "../utils/makeRawQuery";
 import redirect from "../utils/redirect";
 
+import type {
+  GetServerInitialPropsArgs,
+  GetInitialPropsReturn,
+} from "../types";
+
 import type { PreloadedQuery } from "react-relay";
 
 function awaitQuery(query: PreloadedQuery<any, any>) {
@@ -17,50 +22,43 @@ function awaitQuery(query: PreloadedQuery<any, any>) {
   });
 }
 
-type GetServerInitialPropsType = (options: {
-  context: any;
-  userGetInitialProps: any;
-  getServerEnvironment: any;
-}) => any;
+async function getServerInitialProps({
+  context,
+  userGetInitialProps,
+  getServerEnvironment,
+}: GetServerInitialPropsArgs): GetInitialPropsReturn {
+  const relayEnvironment = getServerEnvironment();
 
-const getServerInitialProps: GetServerInitialPropsType =
-  async function getServerInitialProps({
+  async function preloadQuery(query: any, variables: any) {
+    const loadedQuery = loadQuery(relayEnvironment, query, variables);
+
+    await awaitQuery(loadedQuery);
+
+    return makeRawQuery(query, variables, loadedQuery);
+  }
+
+  const initialProps = await userGetInitialProps({
     context,
-    userGetInitialProps,
-    getServerEnvironment,
-  }) {
-    const relayEnvironment = getServerEnvironment();
+    preloadQuery,
+  });
 
-    async function preloadQuery(query: any, variables: any) {
-      const loadedQuery = loadQuery(relayEnvironment, query, variables);
+  if (initialProps.redirect?.destination) {
+    const destination = initialProps.redirect.destination;
+    const permanent = !!initialProps.redirect.permanent;
+    redirect(context, destination, permanent);
+    return {};
+  }
 
-      await awaitQuery(loadedQuery);
+  const serializedStore =
+    relayEnvironment?.getStore().getSource().toJSON() || null;
 
-      return makeRawQuery(query, variables, loadedQuery);
-    }
-
-    const initialProps = await userGetInitialProps({
-      context,
-      preloadQuery,
-    });
-
-    if (initialProps.redirect?.destination) {
-      const destination = initialProps.redirect.destination;
-      const permanent = !!initialProps.redirect.permanent;
-      redirect(context, destination, permanent);
-      return {};
-    }
-
-    const serializedStore =
-      relayEnvironment?.getStore().getSource().toJSON() || null;
-
-    return {
-      ...initialProps,
-      __nextRelayBridgeProps__: {
-        initialStore: serializedStore,
-        relayEnvironment,
-      },
-    };
+  return {
+    ...initialProps,
+    __nextRelayBridgeProps__: {
+      initialStore: serializedStore,
+      relayEnvironment,
+    },
   };
+}
 
 export default getServerInitialProps;
