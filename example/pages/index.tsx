@@ -14,10 +14,13 @@ const Home: NextPage = () => {
       <main>
         <h1>next-relay-bridge</h1>
         <Link href="/users">
-          <a>Users page</a>
+          <a>Users page (no SSR)</a>
         </Link>
         <br />
-        <UsersList />
+        <br />
+        <Link href="/todos">
+          <a>Todos page (with SSR)</a>
+        </Link>
       </main>
     </div>
   );

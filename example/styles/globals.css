@@ -6,6 +6,10 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
+body {
+  padding: 1em 2em;
+}
+
 * {
   box-sizing: border-box;
 }

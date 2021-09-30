@@ -524,6 +524,7 @@ type todosEdge {
 columns and relationships of "users"
 """
 type users implements Node {
+  email: String
   id: ID!
   pk: uuid!
 
@@ -589,6 +590,7 @@ input users_bool_exp {
   _and: [users_bool_exp!]
   _not: users_bool_exp
   _or: [users_bool_exp!]
+  email: String_comparison_exp
   pk: uuid_comparison_exp
   todos: todos_bool_exp
   username: String_comparison_exp
@@ -609,6 +611,7 @@ enum users_constraint {
 input type for inserting data into table "users"
 """
 input users_insert_input {
+  email: String
   pk: uuid
   todos: todos_arr_rel_insert_input
   username: String
@@ -646,6 +649,7 @@ input users_on_conflict {
 
 """Ordering options when selecting data from "users"."""
 input users_order_by {
+  email: order_by
   pk: order_by
   todos_aggregate: todos_aggregate_order_by
   username: order_by
@@ -661,6 +665,9 @@ select columns of table "users"
 """
 enum users_select_column {
   """column name"""
+  email
+
+  """column name"""
   pk
 
   """column name"""
@@ -671,6 +678,7 @@ enum users_select_column {
 input type for updating data in table "users"
 """
 input users_set_input {
+  email: String
   pk: uuid
   username: String
 }
@@ -679,6 +687,9 @@ input users_set_input {
 update columns of table "users"
 """
 enum users_update_column {
+  """column name"""
+  email
+
   """column name"""
   pk
 

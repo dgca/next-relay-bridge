@@ -10,6 +10,7 @@ export type UsersListQueryResponse = {
         readonly edges: ReadonlyArray<{
             readonly node: {
                 readonly username: string;
+                readonly email: string | null;
             };
         }>;
     };
@@ -27,6 +28,7 @@ query UsersListQuery {
     edges {
       node {
         username
+        email
         id
       }
     }
@@ -40,6 +42,13 @@ var v0 = {
   "args": null,
   "kind": "ScalarField",
   "name": "username",
+  "storageKey": null
+},
+v1 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "email",
   "storageKey": null
 };
 return {
@@ -73,7 +82,8 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v0/*: any*/)
+                  (v0/*: any*/),
+                  (v1/*: any*/)
                 ],
                 "storageKey": null
               }
@@ -118,6 +128,7 @@ return {
                 "plural": false,
                 "selections": [
                   (v0/*: any*/),
+                  (v1/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -137,14 +148,14 @@ return {
     ]
   },
   "params": {
-    "cacheID": "2e5ce7acdd20585cb7650ad298a85d77",
+    "cacheID": "504dfa6cf03b661912403ea7a5173046",
     "id": null,
     "metadata": {},
     "name": "UsersListQuery",
     "operationKind": "query",
-    "text": "query UsersListQuery {\n  users_connection {\n    edges {\n      node {\n        username\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query UsersListQuery {\n  users_connection {\n    edges {\n      node {\n        username\n        email\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '025404c0dffeae781ecf0be2f530586b';
+(node as any).hash = 'c2067c4fba647ad086c39e6f4a7d6fc7';
 export default node;
