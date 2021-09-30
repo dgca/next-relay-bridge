@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { useLazyLoadQuery } from "react-relay";
 import { graphql } from "relay-runtime";
 import { SafeSuspense } from "../relay/bridge";
@@ -36,7 +37,6 @@ function UsersListContent() {
       </tbody>
     </table>
   );
-  return <pre>{JSON.stringify(users, null, 2)}</pre>;
 }
 
 export default function UsersList() {
