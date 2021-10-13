@@ -1,6 +1,6 @@
 {
   "name": "next-relay-bridge",
-  "version": "1.0.9",
+  "version": "2.0.0",
   "description": "Middleware to simplify using Next.js with the Relay GraphQL client",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
@@ -20,7 +20,8 @@
   "scripts": {
     "build": "yarn build:esm && yarn build:cjs",
     "build:esm": "tsc",
-    "build:cjs": "tsc --module commonjs --outDir lib/cjs"
+    "build:cjs": "tsc --module commonjs --outDir lib/cjs",
+    "dev": "tsc --watch"
   },
   "devDependencies": {
     "@types/react": "^17.0.19",
@@ -31,7 +32,7 @@
     "react": "^17.0.2",
     "react-relay": "^11.0.2",
     "relay-runtime": "^11.0.2",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.3"
   },
   "peerDependencies": {
     "next": "^10.0.0",

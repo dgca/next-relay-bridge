@@ -1,3 +1,4 @@
+import { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
 import { Environment, Network, Store, RecordSource } from "relay-runtime";
 import fetchGraphQL from "./fetchGraphQL";
 
@@ -10,7 +11,7 @@ export function createClientNetwork() {
 
 let clientEnv: Environment | undefined;
 
-export function getClientEnvironment(initialState: Record<string, any> = {}) {
+export function getClientEnvironment(initialState: RecordMap | undefined = {}) {
   if (clientEnv === undefined) {
     clientEnv = new Environment({
       network: createClientNetwork(),

@@ -1,6 +1,2 @@
-declare type GetClientInitialPropsType = (options: {
-    context: any;
-    userGetInitialProps: any;
-}) => any;
-declare const getClientInitialProps: GetClientInitialPropsType;
-export default getClientInitialProps;
+import { GetClientInitialPropsArgs } from "../types";
+export default function getClientInitialProps({ context, userGetInitialProps, }: GetClientInitialPropsArgs): Promise<Record<string, any>>;

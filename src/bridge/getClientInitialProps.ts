@@ -1,29 +1,34 @@
+import type {
+  GraphQLTaggedNode,
+  Variables as RelayVariables,
+} from "relay-runtime";
+
+import { GetClientInitialPropsArgs } from "../types";
+
 import makeRawQuery from "../utils/makeRawQuery";
 import redirect from "../utils/redirect";
 
-type GetClientInitialPropsType = (options: {
-  context: any;
-  userGetInitialProps: any;
-}) => any;
+export default async function getClientInitialProps({
+  context,
+  userGetInitialProps,
+}: GetClientInitialPropsArgs): Promise<Record<string, any>> {
+  async function preloadQuery(
+    query: GraphQLTaggedNode,
+    variables: RelayVariables
+  ) {
+    return makeRawQuery(query, variables);
+  }
 
-const getClientInitialProps: GetClientInitialPropsType =
-  async function getClientInitialProps({ context, userGetInitialProps }) {
-    async function preloadQuery(query: any, variables: any) {
-      return makeRawQuery(query, variables);
-    }
+  const initialProps = await userGetInitialProps({
+    context,
+    preloadQuery,
+  });
 
-    const initialProps = await userGetInitialProps({
-      context,
-      preloadQuery,
-    });
+  if (initialProps.redirect?.destination) {
+    const destination = initialProps.redirect.destination;
+    redirect(context, destination);
+    return {};
+  }
 
-    if (initialProps.redirect?.destination) {
-      const destination = initialProps.redirect.destination;
-      redirect(context, destination);
-      return {};
-    }
-
-    return initialProps;
-  };
-
-export default getClientInitialProps;
+  return initialProps;
+}

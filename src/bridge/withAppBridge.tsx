@@ -1,18 +1,18 @@
 import React from "react";
 import QueryManager from "../components/QueryManager";
 
-type WithAppBridgeType = (options: {
-  AppComponent: any;
-  getServerEnvironment: any;
-  getClientEnvironment: any;
-}) => any;
+import type {
+  WithAppBridgeArgs,
+  WithAppBridgeReturn,
+  AppWrapperProps,
+} from "../types";
 
-const withAppBridge: WithAppBridgeType = function withAppBridge({
+export default function withAppBridge({
   AppComponent,
   getServerEnvironment,
   getClientEnvironment,
-}) {
-  function AppWrapper(props: any) {
+}: WithAppBridgeArgs): WithAppBridgeReturn {
+  return function AppWrapper(props: AppWrapperProps) {
     return (
       <QueryManager
         {...props}
@@ -21,9 +21,5 @@ const withAppBridge: WithAppBridgeType = function withAppBridge({
         getClientEnvironment={getClientEnvironment}
       />
     );
-  }
-
-  return AppWrapper;
-};
-
-export default withAppBridge;
+  };
+}

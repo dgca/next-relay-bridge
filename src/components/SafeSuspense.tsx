@@ -1,14 +1,17 @@
-import React, { Suspense, Fragment } from "react";
+import React, { Suspense, Fragment, SuspenseProps } from "react";
 import isServer from "../utils/isServer";
+
+type SafeSuspenseProps = SuspenseProps & {
+  clientOnly?: boolean;
+};
 
 export default function SafeSuspense({
   children,
-  key,
   fallback,
   clientOnly,
-}: any) {
+}: SafeSuspenseProps) {
   if (isServer()) {
-    return <Fragment key={key}>{clientOnly ? null : children}</Fragment>;
+    return <Fragment>{clientOnly ? null : children}</Fragment>;
   }
 
   return <Suspense fallback={fallback}>{children}</Suspense>;

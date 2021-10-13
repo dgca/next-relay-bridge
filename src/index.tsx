@@ -1,24 +1,27 @@
-import type { Environment } from "relay-runtime";
-
 import withAppBridge from "./bridge/withAppBridge";
 import withPageBridge from "./bridge/withPageBridge";
-
 import SafeSuspense from "./components/SafeSuspense";
 
-type CreateNextRelayBridgeArgs = {
-  getServerEnvironment: (initialStore?: Record<string, any>) => Environment;
-  getClientEnvironment: (initialStore?: Record<string, any>) => Environment;
-};
+import type {
+  CreateRelayBridgeArgs,
+  WithAppBridgeAppComponent,
+  WithAppBridgeReturn,
+  WithPageBridgeArgs,
+} from "./types";
 
 type CreateRelayBridgeReturn = {
-  withAppBridge: (args: any) => any;
-  withPageBridge: (args: any) => any;
+  withAppBridge: (args: {
+    AppComponent: WithAppBridgeAppComponent;
+  }) => WithAppBridgeReturn;
+  withPageBridge: (
+    args: WithPageBridgeArgs
+  ) => ReturnType<typeof withPageBridge>;
 };
 
 export function createNextRelayBridge({
   getServerEnvironment,
   getClientEnvironment,
-}: CreateNextRelayBridgeArgs): CreateRelayBridgeReturn {
+}: CreateRelayBridgeArgs): CreateRelayBridgeReturn {
   return {
     withAppBridge: ({ AppComponent }) => {
       return withAppBridge({

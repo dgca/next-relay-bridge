@@ -1,9 +1,13 @@
+import { MakeRawQueryType } from "../types";
+
 export const rawQueryKey = "__nextRelayBridgeQuery__";
 
-export default function makeRawQuery(
-  query: any,
-  variables: Record<string, any>,
-  result?: any
+const makeRawQuery: MakeRawQueryType = function makeRawQuery(
+  query,
+  variables,
+  result
 ) {
   return [rawQueryKey, query, variables, result];
-}
+};
+
+export default makeRawQuery;

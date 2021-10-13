@@ -2,19 +2,10 @@ import React from "react";
 import { loadQuery } from "react-relay";
 import isServer from "../utils/isServer";
 import { rawQueryKey } from "../utils/makeRawQuery";
+import { QueryManagerPropTypes } from "../types";
 
-export default class QueryManager extends React.Component<{
-  pageProps: {
-    __nextRelayBridgeProps__: {
-      initialStore: any;
-      relayEnvironment: any;
-    };
-  };
-  getServerEnvironment: any;
-  getClientEnvironment: any;
-  AppComponent: any;
-}> {
-  constructor(props: any) {
+export default class QueryManager extends React.Component<QueryManagerPropTypes> {
+  constructor(props: QueryManagerPropTypes) {
     super(props);
     this.state = {};
   }
@@ -63,12 +54,19 @@ export default class QueryManager extends React.Component<{
 
     return (
       this.props.pageProps.__nextRelayBridgeProps__?.relayEnvironment ??
-      this.props.getServerEnvironment(initialStore)
+      this.props.getServerEnvironment()
     );
   }
 
   render() {
-    const { AppComponent, pageProps, ...rest } = this.props;
+    const {
+      AppComponent,
+      pageProps,
+      getServerEnvironment,
+      getClientEnvironment,
+      relayEnvironment,
+      ...rest
+    } = this.props;
 
     const { __nextRelayBridgeProps__, ...restPageProps } = pageProps;
 

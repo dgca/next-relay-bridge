@@ -4,19 +4,22 @@ import getServerInitialProps from "./getServerInitialProps";
 import getClientInitialProps from "./getClientInitialProps";
 
 import type { NextPageContext } from "next";
+import type { IEnvironment } from "relay-runtime";
+import type { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
+import type { GetInitialPropsType } from "../types";
 
-type WithPageBridgeType = (options: {
-  PageComponent: any;
-  getInitialProps: any;
-  getServerEnvironment: any;
-}) => any;
+type WithPageBridgeArgs<T> = {
+  PageComponent: React.ComponentType<T>;
+  getInitialProps: GetInitialPropsType;
+  getServerEnvironment: (initialStore?: RecordMap) => IEnvironment;
+};
 
-const withPageBridge: WithPageBridgeType = function withPageBridge({
+export default function withPageBridge<T extends React.ComponentType>({
   PageComponent,
   getInitialProps: userGetInitialProps,
   getServerEnvironment,
-}) {
-  function WrappedPageComponent(props: AnimationPlaybackEvent) {
+}: WithPageBridgeArgs<T>) {
+  function WrappedPageComponent(props: T) {
     return <PageComponent {...props} />;
   }
 
@@ -36,6 +39,4 @@ const withPageBridge: WithPageBridgeType = function withPageBridge({
   };
 
   return WrappedPageComponent;
-};
-
-export default withPageBridge;
+}

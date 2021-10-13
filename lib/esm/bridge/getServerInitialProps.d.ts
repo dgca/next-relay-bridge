@@ -1,7 +1,3 @@
-declare type GetServerInitialPropsType = (options: {
-    context: any;
-    userGetInitialProps: any;
-    getServerEnvironment: any;
-}) => any;
-declare const getServerInitialProps: GetServerInitialPropsType;
+import type { GetServerInitialPropsArgs } from "../types";
+declare function getServerInitialProps({ context, userGetInitialProps, getServerEnvironment, }: GetServerInitialPropsArgs): Promise<Record<string, any>>;
 export default getServerInitialProps;

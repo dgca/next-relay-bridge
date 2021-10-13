@@ -1,7 +1,2 @@
-declare type WithAppBridgeType = (options: {
-    AppComponent: any;
-    getServerEnvironment: any;
-    getClientEnvironment: any;
-}) => any;
-declare const withAppBridge: WithAppBridgeType;
-export default withAppBridge;
+import type { WithAppBridgeArgs, WithAppBridgeReturn } from "../types";
+export default function withAppBridge({ AppComponent, getServerEnvironment, getClientEnvironment, }: WithAppBridgeArgs): WithAppBridgeReturn;
