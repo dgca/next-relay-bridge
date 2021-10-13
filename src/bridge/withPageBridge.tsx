@@ -4,24 +4,13 @@ import getServerInitialProps from "./getServerInitialProps";
 import getClientInitialProps from "./getClientInitialProps";
 
 import type { NextPageContext } from "next";
-import type {
-  IEnvironment,
-  GraphQLTaggedNode,
-  Variables as RelayVariables,
-} from "relay-runtime";
+import type { IEnvironment } from "relay-runtime";
 import type { RecordMap } from "relay-runtime/lib/store/RelayStoreTypes";
-
-// import { WithPageBridgheReturn } from "../types";
+import type { GetInitialPropsType } from "../types";
 
 type WithPageBridgeArgs<T> = {
   PageComponent: React.ComponentType<T>;
-  getInitialProps: (args: {
-    context: NextPageContext;
-    preloadQuery: (
-      query: GraphQLTaggedNode,
-      variables: RelayVariables
-    ) => Promise<any>;
-  }) => Promise<Record<string, unknown>>;
+  getInitialProps: GetInitialPropsType;
   getServerEnvironment: (initialStore?: RecordMap) => IEnvironment;
 };
 

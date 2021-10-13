@@ -27,7 +27,7 @@ const users_pageQuery = graphql`
 `;
 
 interface UsersProps {
-  usersQuery: PreloadedQuery<users_pageQueryType, Record<string, unknown>>;
+  usersQuery: PreloadedQuery<users_pageQueryType>;
   thinger?: string;
 }
 
@@ -55,17 +55,9 @@ function UsersWrapper(props: UsersProps) {
   );
 }
 
-interface BridgeWrapperProps {
-  context: NextPageContext;
-  preloadQuery: (
-    users_pageQuery: GraphQLTaggedNode,
-    options: Record<string, unknown>
-  ) => unknown;
-}
-
 export default withPageBridge({
   PageComponent: UsersWrapper,
-  getInitialProps: async ({ context, preloadQuery }: BridgeWrapperProps) => {
+  getInitialProps: async ({ context, preloadQuery }) => {
     // If we needed to redirect from this page, we can return an object
     // like the one below. If the returned props have a `redirect` key of type
     // `{ destination: string, permanent?: boolean | number }`, we'll redirect the user

@@ -1,3 +1,3 @@
-import type { GetServerInitialPropsArgs, GetInitialPropsReturn } from "../types";
-declare function getServerInitialProps({ context, userGetInitialProps, getServerEnvironment, }: GetServerInitialPropsArgs): GetInitialPropsReturn;
+import type { GetServerInitialPropsArgs } from "../types";
+declare function getServerInitialProps({ context, userGetInitialProps, getServerEnvironment, }: GetServerInitialPropsArgs): Promise<Record<string, any>>;
 export default getServerInitialProps;

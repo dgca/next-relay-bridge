@@ -5,11 +5,11 @@ import "../styles/globals.css";
 
 import type { IEnvironment } from "relay-runtime";
 
-type Props = AppProps & {
+type AppComponentProps = AppProps & {
   relayEnvironment: IEnvironment;
 };
 
-function MyApp({ Component, pageProps, relayEnvironment }: Props) {
+function MyApp({ Component, pageProps, relayEnvironment }: AppComponentProps) {
   return (
     <RelayEnvironmentProvider environment={relayEnvironment}>
       <Component {...pageProps} />
