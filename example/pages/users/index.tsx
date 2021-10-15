@@ -1,6 +1,6 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { usePreloadedQuery, PreloadedQuery } from "react-relay";
-import { graphql, GraphQLTaggedNode } from "relay-runtime";
+import { graphql } from "relay-runtime";
 import Link from "next/link";
 
 import { withPageBridge, SafeSuspense } from "relay/bridge";
