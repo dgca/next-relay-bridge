@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { usePreloadedQuery, PreloadedQuery } from "react-relay";
 import { graphql, GraphQLTaggedNode } from "relay-runtime";
 import Link from "next/link";
@@ -6,7 +6,6 @@ import Link from "next/link";
 import { withPageBridge, SafeSuspense } from "relay/bridge";
 
 import { users_pageQuery as users_pageQueryType } from "queries/__generated__/users_pageQuery.graphql";
-import { NextPageContext } from "next";
 
 const users_pageQuery = graphql`
   query users_pageQuery {

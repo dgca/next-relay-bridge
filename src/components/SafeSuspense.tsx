@@ -1,18 +1,39 @@
 import React, { Suspense, Fragment, SuspenseProps } from "react";
-import isServer from "../utils/isServer";
 
 type SafeSuspenseProps = SuspenseProps & {
   clientOnly?: boolean;
 };
 
-export default function SafeSuspense({
-  children,
-  fallback,
-  clientOnly,
-}: SafeSuspenseProps) {
-  if (isServer()) {
-    return <Fragment>{clientOnly ? null : children}</Fragment>;
+let isClient = false;
+
+export default class SafeSuspense extends React.Component<SafeSuspenseProps> {
+  state: {
+    isReady: boolean;
+  };
+
+  constructor(props: SafeSuspenseProps) {
+    super(props);
+    this.state = {
+      isReady: isClient,
+    };
   }
 
-  return <Suspense fallback={fallback}>{children}</Suspense>;
+  componentDidMount() {
+    if (!isClient) {
+      isClient = true;
+      this.setState({
+        isReady: true,
+      });
+    }
+  }
+
+  render() {
+    const { clientOnly, children, fallback } = this.props;
+
+    if (isClient) {
+      return <Suspense fallback={fallback}>{children}</Suspense>;
+    }
+
+    return <Fragment>{clientOnly ? null : children}</Fragment>;
+  }
 }
