@@ -1,11 +1,10 @@
 import React, { Suspense, Fragment, SuspenseProps } from "react";
-import isServer from "../utils/isServer";
 
 type SafeSuspenseProps = SuspenseProps & {
   clientOnly?: boolean;
 };
 
-let isClient = !isServer();
+let isClient = false;
 
 export default class SafeSuspense extends React.Component<SafeSuspenseProps> {
   state: {
